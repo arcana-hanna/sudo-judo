@@ -1,0 +1,23 @@
+{
+  "name": "sudo-judo",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "npm run build:player && vite",
+    "build:player": "vite build --config vite.player.config.ts",
+    "build": "npm run build:player && vite build",
+    "test:robot": "node --experimental-strip-types --no-warnings scripts/robot.test.mjs",
+    "test:contrast": "node --experimental-strip-types --no-warnings scripts/contrast.test.mjs",
+    "test:validate": "node --experimental-strip-types --no-warnings scripts/validate.test.mjs",
+    "test:unit": "npm run -s test:robot && npm run -s test:contrast && npm run -s test:validate",
+    "test:e2e": "python3 scripts/e2e.py && python3 scripts/e2e_polish.py && python3 scripts/e2e_blocks.py && python3 scripts/e2e_ux.py && python3 scripts/e2e_solve.py"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^5.0.0",
+    "svelte": "^5.0.0",
+    "typescript": "^5.6.0",
+    "vite": "^6.0.0",
+    "vite-plugin-singlefile": "^2.0.0"
+  }
+}
