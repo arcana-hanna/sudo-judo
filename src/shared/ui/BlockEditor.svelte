@@ -86,7 +86,7 @@
   .small { padding: .3rem .5rem; font-size: .8rem; border: 2px solid var(--line); border-radius: var(--radius); background: var(--paper); cursor: pointer; font-weight: 600; }
   .work { display: grid; gap: 1rem; min-width: 0; }
   .script { background: var(--paper); border: 2px solid var(--line); border-radius: var(--radius); padding: .6rem .75rem .8rem; min-height: 5rem; }
-  .hat { display: inline-flex; align-items: center; gap: .5rem; background: var(--blk-hat); color: var(--ink); font-weight: 700; padding: .3rem .8rem;
+  .hat { display: inline-flex; align-items: center; gap: .5rem; background: var(--blk-hat); color: var(--blk-hat-ink); font-weight: 700; padding: .3rem .8rem;
          border-radius: 14px 14px 8px 8px; margin-bottom: .2rem; }
   .hat.my { background: var(--blk-my); color: #fff; }
   .hat input { border: 0; border-radius: 10px; padding: .1rem .5rem; font: inherit; width: 9rem; }

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { str } from '../../shared/theme.svelte';
   import type { McBlock } from '../../shared/types';
   let { block, solved = false, onsolved }:
     { block: McBlock; solved?: boolean; onsolved?: () => void } = $props();
@@ -42,9 +43,9 @@
   <div class="row">
     <button class="check" onclick={check} disabled={solved || picked.length === 0}>Prüfen</button>
     <p class="msg" role="status">
-      {#if result === 'ok'}<span class="ok">Richtig!</span>
-      {:else if result === 'no'}<span class="no">Noch nicht ganz.</span>
-        {#if block.hint}<span class="hint">Tipp: {block.hint}</span>{/if}
+      {#if result === 'ok'}<span class="ok">{str().ok}</span>
+      {:else if result === 'no'}<span class="no">{str().no}</span>
+        {#if block.hint}<span class="hint">{str().tip} {block.hint}</span>{/if}
       {/if}
     </p>
   </div>
@@ -61,7 +62,7 @@
   .opt.picked { border-color: var(--accent); background: var(--wash); }
   .opt input { width: 1.2rem; height: 1.2rem; accent-color: var(--accent); }
   .row { display: flex; align-items: center; gap: 1rem; margin-top: 1rem; flex-wrap: wrap; }
-  .check { background: var(--accent); color: var(--accent-ink); border: 0; border-radius: var(--radius);
+  .check { background: var(--accent); color: var(--accent-ink); border: 0; border-radius: var(--btn-radius);
            padding: .6rem 1.4rem; font-weight: 650; cursor: pointer; }
   .check:disabled { background: var(--line); color: var(--muted); cursor: default; }
   .msg { margin: 0; display: flex; flex-direction: column; gap: .15rem; }

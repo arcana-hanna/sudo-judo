@@ -183,14 +183,14 @@
   .stage.adding { cursor: crosshair; outline: 3px dashed var(--accent); }
   .stage img { display: block; width: 100%; height: auto; user-select: none; }
   .abs { position: absolute; transform: translate(-50%, -50%); }
-  .mk { position: absolute; transform: translate(-50%, -50%); width: 2.2rem; height: 2.2rem; padding: 0 !important; border-radius: 50% !important; border: 3px dashed var(--accent) !important; background: rgba(255,255,255,.9) !important; font-weight: 700; cursor: grab; touch-action: none; }
+  .mk { position: absolute; transform: translate(-50%, -50%); width: 2.2rem; height: 2.2rem; padding: 0 !important; border-radius: 50% !important; border: 3px dashed var(--accent) !important; background: color-mix(in srgb, var(--paper) 90%, transparent) !important; font-weight: 700; cursor: grab; touch-action: none; }
   .mk.sel { background: var(--accent) !important; color: var(--accent-ink); border-style: solid !important; }
   .chip { display: inline-flex; align-items: center; gap: .35rem; padding: .45rem .8rem; background: var(--paper); border: 2px solid var(--line); border-radius: var(--radius); cursor: pointer; font-size: 1rem; }
   .chip.sel { border-color: var(--accent); background: var(--accent); color: var(--accent-ink); }
   .cloze { line-height: 2.8; margin: .8rem 0; max-width: 60ch; }
   .list { display: flex; flex-wrap: wrap; gap: .75rem 1.25rem; margin: .8rem 0; }
   .li { display: grid; gap: .2rem; } .slab { font-size: .9rem; color: var(--muted); }
-  .sbox { display: inline-flex; flex-wrap: wrap; align-items: center; gap: .3rem; min-width: 3.4rem; min-height: 2.7rem; padding: .2rem .4rem; border: 2px dashed var(--accent); border-radius: var(--radius); background: rgba(255,255,255,.92); vertical-align: middle; }
+  .sbox { display: inline-flex; flex-wrap: wrap; align-items: center; gap: .3rem; min-width: 3.4rem; min-height: 2.7rem; padding: .2rem .4rem; border: 2px dashed var(--accent); border-radius: var(--radius); background: color-mix(in srgb, var(--paper) 92%, transparent); vertical-align: middle; }
   .sbox.filled { border-style: solid; }
   .acc { padding: .15rem .5rem !important; border-width: 2px !important; font-weight: 600 !important; font-size: .95rem; display: inline-flex; gap: .3rem; align-items: center; background: var(--good-wash) !important; border-color: var(--good) !important; }
   .acc:hover { background: var(--bad-wash) !important; border-color: var(--bad) !important; }

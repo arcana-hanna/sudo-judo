@@ -42,6 +42,6 @@
   .cell:focus { outline: none; }
   .cell:focus-visible .sq { stroke: var(--accent); stroke-width: 4; }
   .mark { fill: none; stroke: var(--accent); stroke-width: 4; pointer-events: none; }
-  .bot { fill: var(--accent); stroke: #fff; stroke-width: 2; pointer-events: none; }
+  .bot { fill: var(--accent); stroke: var(--paper); stroke-width: 2; pointer-events: none; }
   .bot.bump { fill: var(--bad); }
 </style>

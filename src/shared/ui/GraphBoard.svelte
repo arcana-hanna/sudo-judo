@@ -99,7 +99,7 @@
       {#if n.shape === 'square'}<rect class="shape" x="-21" y="-21" width="42" height="42" rx="6" {fill} />
       {:else if n.shape === 'diamond'}<polygon class="shape" points="0,-27 27,0 0,27 -27,0" {fill} />
       {:else}<circle class="shape" r="22" {fill} />{/if}
-      <text text-anchor="middle" dy=".35em" fill={sel ? '#fff' : NODE_TEXT[c]} font-size={n.label.length > 3 ? 12 : 17}>{n.label}</text>
+      <text text-anchor="middle" dy=".35em" fill={sel ? 'var(--accent-ink)' : NODE_TEXT[c]} font-size={n.label.length > 3 ? 12 : 17}>{n.label}</text>
     </g>
   {/each}
 </svg>

@@ -5,6 +5,7 @@ export interface McOption { id: string; text: string; correct: boolean; img?: st
 export interface McBlock {
   id: string; type: 'mc';
   question: string; options: McOption[]; hint: string;
+  level?: number;     // Schwierigkeit als Gürtelstufe: 0 (weiß) … 6 (schwarz); leer = nicht angegeben
 }
 export interface OrderBlock {
   id: string; type: 'order';
@@ -13,6 +14,7 @@ export interface OrderBlock {
   mode?: 'fixed' | 'rules';                           // 'rules': richtig ist jede Reihenfolge, die alle Regeln erfüllt
   rules?: { a: string; b: string }[];                 // "a muss vor b stehen" (Element-IDs)
   hint: string;
+  level?: number;     // Schwierigkeit als Gürtelstufe: 0 (weiß) … 6 (schwarz); leer = nicht angegeben
 }
 export interface ImageBlock { id: string; type: 'image'; src: string; alt: string }
 export interface SortBlock {
@@ -21,6 +23,7 @@ export interface SortBlock {
   categories: { id: string; text: string }[];
   items: { id: string; text: string; cat: string; img?: string }[]; // cat = richtige Kategorie
   hint: string;
+  level?: number;     // Schwierigkeit als Gürtelstufe: 0 (weiß) … 6 (schwarz); leer = nicht angegeben
 }
 export interface GridBlock {
   id: string; type: 'grid';
@@ -31,6 +34,7 @@ export interface GridBlock {
   target: number[];    // Lösung, zeilenweise
   alts?: number[][];   // weitere richtige Lösungen
   hint: string;
+  level?: number;     // Schwierigkeit als Gürtelstufe: 0 (weiß) … 6 (schwarz); leer = nicht angegeben
 }
 export interface GraphNode { id: string; x: number; y: number; label: string; shape?: 'circle' | 'square' | 'diamond'; color?: number }
 export interface GraphEdge { id: string; a: string; b: string; w?: string }  // w = Beschriftung/Gewicht
@@ -45,6 +49,7 @@ export interface GraphBlock {
   directed?: boolean;                // Kanten mit Pfeil von a nach b
   alts?: string[][];                 // weitere richtige Lösungen (Modi "nodes"/"edges")
   hint: string;
+  level?: number;     // Schwierigkeit als Gürtelstufe: 0 (weiß) … 6 (schwarz); leer = nicht angegeben
 }
 
 // ---- Folgen, Lücken/Plätze und Felder ----
@@ -56,6 +61,7 @@ export interface SeqBlock {
   answers: string[][];        // alle richtigen Folgen (Token-IDs)
   maxLen: number;
   hint: string;
+  level?: number;     // Schwierigkeit als Gürtelstufe: 0 (weiß) … 6 (schwarz); leer = nicht angegeben
 }
 export interface Slot { id: string; label: string; x: number; y: number; accept: string[] } // x,y in % (Layout "image")
 export interface SlotsBlock {
@@ -68,6 +74,7 @@ export interface SlotsBlock {
   tokens: Token[];
   slots: Slot[];
   hint: string;
+  level?: number;     // Schwierigkeit als Gürtelstufe: 0 (weiß) … 6 (schwarz); leer = nicht angegeben
 }
 export interface CellsBlock {
   id: string; type: 'cells';
@@ -79,6 +86,7 @@ export interface CellsBlock {
   goal: { x: number; y: number } | null;
   answers: number[][];                // alle richtigen Feldauswahlen (Feldnummern zeilenweise)
   hint: string;
+  level?: number;     // Schwierigkeit als Gürtelstufe: 0 (weiß) … 6 (schwarz); leer = nicht angegeben
 }
 // ---- Roboter / Programmieren (Blöcke ↔ Python teilen sich dieselbe Programmstruktur) ----
 export interface Val { v: string; n: number }                 // v = Variablenname, '' = feste Zahl n
@@ -119,6 +127,7 @@ export interface RobotBlock {
   predictVar: string;
   showPython: boolean;
   hint: string;
+  level?: number;     // Schwierigkeit als Gürtelstufe: 0 (weiß) … 6 (schwarz); leer = nicht angegeben
 }
 export type Block = TextBlock | McBlock | OrderBlock | ImageBlock | SortBlock | GridBlock | GraphBlock | SeqBlock | SlotsBlock | CellsBlock | RobotBlock;
 
@@ -127,6 +136,7 @@ export interface Project {
   schemaVersion: number;
   id: string;        // Schlüssel für den Lernfortschritt im Browser
   title: string;
+  theme?: 'klar' | 'dojo';   // Aussehen der fertigen Seite
   pages: Page[];
 }
 

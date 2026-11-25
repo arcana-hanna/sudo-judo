@@ -132,11 +132,11 @@
   .row { display: flex; align-items: center; gap: .4rem; padding: .4rem .5rem; flex-wrap: wrap; min-height: 2.3rem; }
   .row.mid { padding-top: .25rem; padding-bottom: .25rem; }
   .row span { white-space: nowrap; }
-  .grip { cursor: grab; opacity: .8; padding: 0 .15rem; user-select: none; }
+  .grip { cursor: grab; padding: 0 .15rem; user-select: none; }
   .x { margin-left: auto; background: rgba(0,0,0,.2); color: #fff; border: 0; border-radius: 6px; width: 1.5rem; height: 1.5rem; cursor: pointer; padding: 0; }
   .x:hover { background: rgba(0,0,0,.4); }
-  .inner { margin-left: 1.1rem; padding: 0 .4rem 0 .5rem; background: rgba(255,255,255,.9); color: var(--ink); border-left: 0; min-height: 1.5rem; border-radius: 0 0 0 0; }
+  .inner { margin-left: 1.1rem; padding: 0 .4rem 0 .5rem; background: var(--paper); color: var(--ink); border-left: 0; min-height: 1.5rem; border-radius: 0 0 0 0; }
   .foot { height: .6rem; }
-  select { border: 0; border-radius: 12px; padding: .15rem .35rem; background: #fff; color: var(--ink); font: inherit; font-weight: 600; }
-  .ro-pill { background: #fff; color: var(--ink); border-radius: 12px; padding: 0 .6rem; font-weight: 700; }
+  select { border: 0; border-radius: 12px; padding: .15rem .35rem; background: #fff; color: #1c2b33; font: inherit; font-weight: 600; }
+  .ro-pill { background: #fff; color: #1c2b33; border-radius: 12px; padding: 0 .6rem; font-weight: 700; }
 </style>

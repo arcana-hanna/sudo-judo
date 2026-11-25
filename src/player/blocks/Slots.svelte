@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { str } from '../../shared/theme.svelte';
   import type { Slot, SlotsBlock, Token } from '../../shared/types';
   let { block, solved = false, onsolved }:
     { block: SlotsBlock; solved?: boolean; onsolved?: () => void } = $props();
@@ -129,9 +130,9 @@
   <div class="row">
     <button class="check" onclick={check} disabled={solved || !allFilled}>Prüfen</button>
     <p class="msg" role="status">
-      {#if result === 'ok'}<span class="ok">Richtig!</span>
-      {:else if result === 'no'}<span class="no">Noch nicht ganz.</span>
-        {#if block.hint}<span>Tipp: {block.hint}</span>{/if}
+      {#if result === 'ok'}<span class="ok">{str().ok}</span>
+      {:else if result === 'no'}<span class="no">{str().no}</span>
+        {#if block.hint}<span>{str().tip} {block.hint}</span>{/if}
       {/if}
     </p>
   </div>
@@ -149,7 +150,7 @@
   .list { display: flex; flex-wrap: wrap; gap: .75rem 1.25rem; margin-bottom: 1rem; }
   .li { display: grid; gap: .2rem; justify-items: start; }
   .lab { font-size: .9rem; color: var(--muted); }
-  .slot { min-width: 3.4rem; min-height: 2.7rem; padding: .25rem .6rem; border: 2px dashed var(--accent); border-radius: var(--radius); background: rgba(255, 255, 255, .92); cursor: pointer; font-size: 1rem; display: inline-flex; align-items: center; gap: .3rem; vertical-align: middle; }
+  .slot { min-width: 3.4rem; min-height: 2.7rem; padding: .25rem .6rem; border: 2px dashed var(--accent); border-radius: var(--radius); background: color-mix(in srgb, var(--paper) 92%, transparent); cursor: pointer; font-size: 1rem; display: inline-flex; align-items: center; gap: .3rem; vertical-align: middle; }
   .slot.filled { border-style: solid; background: var(--paper); }
   .slot.hot:not(.filled) { background: var(--wash); border-width: 3px; }
   .slot:disabled { cursor: default; color: var(--ink); }
@@ -163,7 +164,7 @@
   .timg { height: 2.2rem; width: auto; max-width: 4.5rem; object-fit: contain; }
   .empty { color: var(--muted); align-self: center; }
   .row { display: flex; align-items: center; gap: 1rem; margin-top: 1rem; flex-wrap: wrap; }
-  .check { background: var(--accent); color: var(--accent-ink); border: 0; border-radius: var(--radius); padding: .6rem 1.4rem; font-weight: 650; cursor: pointer; }
+  .check { background: var(--accent); color: var(--accent-ink); border: 0; border-radius: var(--btn-radius); padding: .6rem 1.4rem; font-weight: 650; cursor: pointer; }
   .check:disabled { background: var(--line); color: var(--muted); cursor: default; }
   .msg { margin: 0; display: flex; flex-direction: column; gap: .15rem; }
   .ok { color: var(--good); font-weight: 650; }

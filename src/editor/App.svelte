@@ -7,6 +7,7 @@
   import { editorBlocks } from './registry';
   import { templates, type Template } from './templates';
   import { icons } from './icons';
+  import { theme, THEMES, isThemeId } from '../shared/theme.svelte';
   import { download, readProject } from './io';
   import Help from './Help.svelte';
   import Menu from './ui/Menu.svelte';
@@ -26,6 +27,8 @@
   let dragPage = $state(-1);
   let overPage = $state(-1);
 
+  const projectTheme = $derived(isThemeId(app.project.theme) ? app.project.theme : 'klar');
+  $effect(() => { theme.id = projectTheme; });
   const issues = $derived(validate(app.project));
   const issuePages = $derived(
     [...new Set(issues.map((i) => i.pageId))].map((id) => ({ id, items: issues.filter((i) => i.pageId === id) })));
@@ -142,6 +145,7 @@
     <Menu label="Datei ▾" cls="filemenu" items={[
       { label: 'Neues Projekt …', onclick: onNew },
       { label: 'Öffnen …', onclick: () => fileInput.click() },
+      ...THEMES.map((t) => ({ label: `${projectTheme === t.id ? '✓ ' : ''}Aussehen: ${t.name} (${t.desc})`, onclick: () => { app.project.theme = t.id; } })),
       { label: 'Hilfe und Anleitung', onclick: () => helpDlg.showModal() },
     ]} />
     <input bind:this={fileInput} type="file" accept=".html,.json,text/html,application/json" hidden onchange={onOpen} />
@@ -193,11 +197,11 @@
 
     <main class="work">
       {#if app.preview}
-        <div class="stage">
+        <div class="stage" data-theme={projectTheme}>
           {#key app.pageId}<Player project={app.project} start={app.pageId} />{/key}
         </div>
       {:else if page}
-        <div class="paper">
+        <div class="paper" data-theme={projectTheme}>
           <input class="pagetitle" bind:value={page.title} placeholder="Titel der Seite" aria-label="Titel der Seite" />
           {#if pageHints.length}<ul class="phints" role="status">{#each pageHints as m}<li>{m}</li>{/each}</ul>{/if}
 
@@ -252,7 +256,7 @@
   .ib { border-color: transparent !important; font-size: 1.15rem; padding: .25rem .6rem !important; }
   .chip { border-radius: 999px !important; font-size: .9rem; color: var(--good); border-color: var(--good) !important; background: var(--good-wash) !important; }
   .chip.warn { color: var(--bad); border-color: var(--bad) !important; background: var(--bad-wash) !important; }
-  .badge { display: inline-block; min-width: 1.3rem; padding: 0 .35rem; border-radius: 1rem; background: var(--bad); color: #fff; font-size: .8rem; text-align: center; }
+  .badge { display: inline-block; min-width: 1.3rem; padding: 0 .35rem; border-radius: 1rem; background: var(--bad); color: var(--on-bad); font-size: .8rem; text-align: center; }
   .banner { background: var(--bad-wash); color: var(--bad); padding: .6rem 1rem; font-weight: 600; border-bottom: 2px solid var(--bad); }
   .issues { padding: .6rem 1rem .8rem; border-bottom: 1px solid var(--line); background: var(--paper); max-height: 14rem; overflow: auto; }
   .issues ul { list-style: none; margin: .4rem 0 0; padding: 0; display: grid; gap: .15rem; }
@@ -275,21 +279,21 @@
   :global(.pmenu .mbtn) { border: 0 !important; padding: .2rem .5rem !important; font-size: 1.1rem; background: none !important; }
 
   .work { overflow: auto; padding: 1.5rem 1rem 4rem; }
-  .paper { max-width: 50rem; margin: 0 auto; background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 1.75rem 2rem 2rem; font-size: 18px; box-shadow: 0 1px 3px rgba(28, 43, 51, .06); }
+  .paper { max-width: 50rem; margin: 0 auto; background: var(--paper); border: 1px solid var(--line); border-radius: max(12px, var(--card-radius)); padding: 1.75rem 2rem 2rem; font-size: calc(18px * var(--scale)); font-family: var(--font); box-shadow: 0 1px 3px rgba(28, 43, 51, .06); }
   .pagetitle { display: block; width: 100%; font-size: 1.9rem; font-weight: 700; line-height: 1.2; border: 0; border-bottom: 2px solid transparent; background: transparent; padding: .1rem .25rem; margin: 0 0 1rem; font-family: var(--font); color: var(--ink); }
   .pagetitle:hover { border-bottom-color: var(--line); } .pagetitle:focus { outline: none; border-bottom-color: var(--accent); }
   .phints { list-style: none; margin: 0 0 1rem; padding: .5rem .8rem; background: var(--bad-wash); border-left: 4px solid var(--bad); color: var(--bad); font-size: .92rem; border-radius: 4px; }
   .bw { position: relative; padding-top: .35rem; }
   .bw.over { box-shadow: 0 -3px 0 var(--accent); }
   .ins { display: block; width: 100%; height: 1.1rem; padding: 0 !important; border: 0 !important; background: none !important; position: relative; cursor: pointer; opacity: 0; transition: opacity .12s; }
-  .ins span { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 1.5rem; height: 1.5rem; border-radius: 50%; background: var(--accent); color: #fff; line-height: 1.4rem; font-weight: 700; font-size: 1.1rem; }
+  .ins span { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 1.5rem; height: 1.5rem; border-radius: 50%; background: var(--accent); color: var(--accent-ink); line-height: 1.4rem; font-weight: 700; font-size: 1.1rem; }
   .ins::before { content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 2px; background: var(--accent); opacity: .35; }
   .ins:hover, .ins:focus-visible { opacity: 1; }
   @media (hover: none) { .ins { opacity: .55; } }
   .addend { width: 100%; margin-top: 1rem; padding: .8rem !important; border: 2px dashed var(--line) !important; background: none !important; color: var(--muted); font-size: 1rem; }
   .addend:hover { border-color: var(--accent) !important; color: var(--accent); }
   .empty { color: var(--muted); text-align: center; padding: 1.5rem 0 .5rem; }
-  .stage { max-width: 56rem; margin: 0 auto; background: var(--paper); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+  .stage { max-width: 56rem; margin: 0 auto; background: var(--paper); border: 1px solid var(--line); border-radius: max(12px, var(--card-radius)); overflow: hidden; }
 
   dialog { border: 1px solid var(--ink); border-radius: 12px; padding: 1.25rem 1.5rem; width: min(46rem, 94vw); max-height: 90vh; overflow: auto; color: var(--ink); background: var(--paper); }
   dialog::backdrop { background: rgba(28, 43, 51, .5); }

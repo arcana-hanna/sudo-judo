@@ -13,6 +13,7 @@ export function migrate(raw: any): Project {
     schemaVersion: SCHEMA_VERSION,
     id: String(raw.id ?? ''),
     title: String(raw.title ?? DEFAULT_TITLE),
+    theme: raw.theme === 'dojo' ? 'dojo' : 'klar',
     pages: raw.pages.map((p: any) => ({
       id: String(p.id), title: String(p.title ?? ''),
       blocks: Array.isArray(p.blocks) ? p.blocks : [],

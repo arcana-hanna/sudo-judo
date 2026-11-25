@@ -21,6 +21,16 @@ Jede fertige Sammlung ist **eine einzelne HTML-Datei**, die offline läuft und s
 - Alle Aufgabentypen werden direkt im Schülerlayout bearbeitet; Werkzeuge haben Symbole. Karten lassen sich auch ohne Ziehen/Tastatur per ◀ ▶ verschieben.
 - Aufbau: `src/editor/canvas/` (Bearbeiten im Schülerlayout), `src/editor/ui/` (Blockkarte, Auswahl, Menü, Textfelder).
 
+## Aussehen, Gürtel, Dunkelmodus
+- **Zwei Themes** je Sammlung (Menü „Datei → Aussehen“): **Klar** (schlicht, Standard) und **Dojo** (warm, rund, mit Wellenmuster und Gürteln – für jüngere Schüler).
+  Beide folgen automatisch dem hellen oder dunklen Modus des Geräts. Farben und Formen stehen in `src/shared/theme.css`
+  (Blöcke zwischen `@theme … @end` werden von `scripts/contrast.test.mjs` auf Lesbarkeit geprüft), Namen und Standardtitel in `src/shared/brand.ts`.
+- **Gürtel** (`src/shared/belts.ts`): sieben Stufen Weiß → Schwarz. Als **Schwierigkeit** legt man sie pro Aufgabe fest („+ Schwierigkeit festlegen“);
+  als **Fortschritt** steigt der Schüler mit den gelösten Aufgaben auf (Schwarz erst, wenn alles gelöst ist). Im Dojo-Theme als Gürtelgrafik, im Theme „Klar“ als Farbpunkt.
+- **Texte je Theme** (`src/shared/theme.svelte.ts`): Im Dojo-Theme z. B. „Ippon! Richtig!“, „Tipp vom Sensei:“ und „Zum Dojo“.
+- **Speicher:** Entwürfe und Lernfortschritt liegen unter `sudo-judo:…`; Daten unter dem alten Namensraum `raetselbox:…` werden automatisch übernommen (`src/shared/storage.ts`).
+- `npm run test:e2e` enthält einen Kontrast-Scanner (`scripts/e2e_theme.py`), der in allen vier Kombinationen (Klar/Dojo × hell/dunkel) jeden sichtbaren Text in Editor und Schüleransicht prüft.
+
 ## Aufgabentypen
 | Typ | Was die Schüler tun | Besonderheiten |
 |---|---|---|

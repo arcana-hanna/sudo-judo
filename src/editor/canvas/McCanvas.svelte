@@ -36,7 +36,7 @@
   .opt { display: flex; align-items: center; gap: .75rem; padding: .55rem .85rem; border: 2px solid var(--line); border-radius: var(--radius); background: var(--paper); }
   .opt.ok { border-color: var(--good); background: var(--good-wash); }
   .mark { flex: none; width: 1.9rem; height: 1.9rem; border-radius: 50%; border: 2px solid var(--muted); background: var(--paper); color: #fff; font-weight: 700; cursor: pointer; padding: 0; }
-  .mark[aria-pressed='true'] { background: var(--good); border-color: var(--good); }
+  .mark[aria-pressed='true'] { background: var(--good); border-color: var(--good); color: var(--on-good); }
   .mark:hover { border-color: var(--good); }
   .body { flex: 1; display: flex; align-items: center; gap: .75rem; min-width: 0; flex-wrap: wrap; }
   .oimg { max-height: 6rem; max-width: 12rem; object-fit: contain; border-radius: 4px; background: #fff; }

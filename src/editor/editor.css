@@ -11,8 +11,8 @@
 /* Text, der im Blatt wie normaler Text aussieht und beim Darüberfahren als Feld erkennbar wird */
 .inl { display: block; width: 100%; font: inherit; color: inherit; background: transparent; border: 0; border-bottom: 2px solid transparent; border-radius: 4px;
        padding: .15rem .25rem; margin: 0; resize: none; overflow: hidden; line-height: 1.4; }
-.inl:hover { border-bottom-color: var(--line); background: rgba(10, 108, 140, .04); }
-.inl:focus { outline: none; border-bottom-color: var(--accent); background: rgba(10, 108, 140, .07); }
+.inl:hover { border-bottom-color: var(--line); background: color-mix(in srgb, var(--accent) 6%, transparent); }
+.inl:focus { outline: none; border-bottom-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, transparent); }
 .inl::placeholder { color: var(--muted); opacity: .85; }
 .inl.q { font-weight: 650; font-size: 1.15rem; }
 .inl.para { max-width: 60ch; }

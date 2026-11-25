@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { str } from '../../shared/theme.svelte';
   import type { GraphBlock } from '../../shared/types';
   import GraphBoard from '../../shared/ui/GraphBoard.svelte';
   import { solveColoring } from '../../shared/graph';
@@ -60,9 +61,9 @@
   <div class="row">
     <button class="check" onclick={check} disabled={solved}>Prüfen</button>
     <p class="msg" role="status">
-      {#if result === 'ok'}<span class="ok">Richtig!</span>
-      {:else if result === 'no'}<span class="no">Noch nicht ganz.</span>
-        {#if block.hint}<span>Tipp: {block.hint}</span>{/if}
+      {#if result === 'ok'}<span class="ok">{str().ok}</span>
+      {:else if result === 'no'}<span class="no">{str().no}</span>
+        {#if block.hint}<span>{str().tip} {block.hint}</span>{/if}
       {/if}
     </p>
   </div>
@@ -76,7 +77,7 @@
   .legend { list-style: none; display: flex; gap: 1rem; padding: 0; margin: 0 0 .75rem; font-size: .95rem; }
   .sw { display: inline-block; width: 1rem; height: 1rem; border: 2px solid var(--ink); border-radius: 50%; margin-right: .35rem; vertical-align: -.15rem; }
   .row { display: flex; align-items: center; gap: 1rem; margin-top: 1rem; flex-wrap: wrap; }
-  .check { background: var(--accent); color: var(--accent-ink); border: 0; border-radius: var(--radius); padding: .6rem 1.4rem; font-weight: 650; cursor: pointer; }
+  .check { background: var(--accent); color: var(--accent-ink); border: 0; border-radius: var(--btn-radius); padding: .6rem 1.4rem; font-weight: 650; cursor: pointer; }
   .check:disabled { background: var(--line); color: var(--muted); cursor: default; }
   .msg { margin: 0; display: flex; flex-direction: column; gap: .15rem; }
   .ok { color: var(--good); font-weight: 650; }

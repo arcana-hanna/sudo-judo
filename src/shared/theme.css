@@ -1,3 +1,32 @@
+/* Sudo-Judo – Farben und Formen.
+   Zwei Themes ("klar" und "dojo"), jedes hell und dunkel (folgt automatisch der Einstellung des Geräts).
+   Die Blöcke zwischen "@theme" und "@end" werden von scripts/contrast.test.mjs auf Lesbarkeit geprüft. */
+
+/* ===== Gemeinsam: Blockfarben (Scratch-ähnlich, immer weiße Schrift) und Grundform ===== */
+:root {
+  color-scheme: light dark;
+  --blk-motion: #2f6fd6;
+  --blk-control: #9c6200;
+  --blk-vars: #c4481c;
+  --blk-my: #c23d6b;
+  --blk-hat: #e0b400;
+  --blk-hat-ink: #1c2b33;
+  --radius: 6px;
+  --btn-radius: 6px;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --scale: 1;
+  --pattern: none;
+  --card-radius: 0;
+  --card-border: 0 solid transparent;
+  --card-shadow: none;
+  --card-gap: 0px;
+  --card-margin: 0;
+  --bar-w: 2px;
+  --sun-size: 0px;
+}
+
+/* ===== Theme "klar": schlicht und sauber (Standard) ===== */
+/* @theme klar-light */
 :root {
   --paper: #ffffff;
   --wash: #f3f6f8;
@@ -8,19 +37,113 @@
   --accent-ink: #ffffff;
   --good: #1d7a40;
   --good-wash: #e6f4ea;
+  --on-good: #ffffff;
   --bad: #a93b26;
   --bad-wash: #fbeae6;
-  --blk-motion: #2f6fd6;
-  --blk-control: #9c6200;
-  --blk-vars: #c4481c;
-  --blk-my: #c23d6b;
-  --blk-hat: #e0b400;
-  --radius: 6px;
-  --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --on-bad: #ffffff;
+  --cell0: #ffffff;
+  --page: #ffffff;
+  --card-bg: transparent;
+  --bar-bg: #ffffff;
+  --bar-ink: #0a6c8c;
+  --bar-line: #d3dce1;
 }
+/* @end */
+@media (prefers-color-scheme: dark) {
+  /* @theme klar-dark */
+  :root {
+    --paper: #151e25;
+    --wash: #0e151a;
+    --ink: #e8eff3;
+    --muted: #9db0bb;
+    --line: #2c3b46;
+    --accent: #5bc8ea;
+    --accent-ink: #04212b;
+    --good: #6fd592;
+    --good-wash: #15301f;
+    --on-good: #06260f;
+    --bad: #ff9a89;
+    --bad-wash: #3a1f1a;
+    --on-bad: #3a0d06;
+    --cell0: #0b1116;
+    --page: #151e25;
+    --card-bg: transparent;
+    --bar-bg: #151e25;
+    --bar-ink: #5bc8ea;
+    --bar-line: #2c3b46;
+  }
+  /* @end */
+}
+
+/* ===== Theme "dojo": warm, rund, mit Gürteln – für jüngere Schülerinnen und Schüler ===== */
+/* @theme dojo-light */
+[data-theme='dojo'] {
+  --paper: #fffdf8;
+  --wash: #f1e9d8;
+  --ink: #2a2118;
+  --muted: #655747;
+  --line: #dacdb4;
+  --accent: #234a7c;
+  --accent-ink: #ffffff;
+  --good: #286e31;
+  --good-wash: #e3f1df;
+  --on-good: #ffffff;
+  --bad: #b3261e;
+  --bad-wash: #fbe6e2;
+  --on-bad: #ffffff;
+  --cell0: #fffdf8;
+  --radius: 14px;
+  --btn-radius: 999px;
+  --card-radius: 22px;
+  --card-border: 2px solid #dacdb4;
+  --card-shadow: 0 6px 0 rgba(42, 33, 24, .07);
+  --scale: 1.06;
+  --font: ui-rounded, "SF Pro Rounded", "Hiragino Maru Gothic ProN", "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+  --pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='28' viewBox='0 0 56 28'%3E%3Cg fill='none' stroke='%23234a7c' stroke-opacity='.10' stroke-width='1.5'%3E%3Ccircle cx='14' cy='28' r='13'/%3E%3Ccircle cx='14' cy='28' r='9'/%3E%3Ccircle cx='14' cy='28' r='5'/%3E%3Ccircle cx='42' cy='28' r='13'/%3E%3Ccircle cx='42' cy='28' r='9'/%3E%3Ccircle cx='42' cy='28' r='5'/%3E%3Ccircle cx='28' cy='14' r='13'/%3E%3Ccircle cx='28' cy='14' r='9'/%3E%3Ccircle cx='28' cy='14' r='5'/%3E%3C/g%3E%3C/svg%3E");
+  --page: #f1e9d8;
+  --card-bg: #fffdf8;
+  --bar-bg: #234a7c;
+  --bar-ink: #ffffff;
+  --bar-line: #b3261e;
+  --bar-w: 6px;
+  --card-gap: 2rem;
+  --card-margin: 1.5rem;
+  --sun-size: 1rem;
+}
+/* @end */
+@media (prefers-color-scheme: dark) {
+  /* @theme dojo-dark */
+  [data-theme='dojo'] {
+    --paper: #1f2534;
+    --wash: #151a26;
+    --ink: #f3eee3;
+    --muted: #b9b2a3;
+    --line: #39445c;
+    --accent: #9dbcf0;
+    --accent-ink: #0f1f3a;
+    --good: #7ed98c;
+    --good-wash: #1d3a28;
+    --on-good: #082510;
+    --bad: #ff9b8f;
+    --bad-wash: #43221f;
+    --on-bad: #3d0d08;
+    --cell0: #12161f;
+    --card-border: 2px solid #39445c;
+    --card-shadow: 0 6px 0 rgba(0, 0, 0, .25);
+    --pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='28' viewBox='0 0 56 28'%3E%3Cg fill='none' stroke='%239dbcf0' stroke-opacity='.09' stroke-width='1.5'%3E%3Ccircle cx='14' cy='28' r='13'/%3E%3Ccircle cx='14' cy='28' r='9'/%3E%3Ccircle cx='14' cy='28' r='5'/%3E%3Ccircle cx='42' cy='28' r='13'/%3E%3Ccircle cx='42' cy='28' r='9'/%3E%3Ccircle cx='42' cy='28' r='5'/%3E%3Ccircle cx='28' cy='14' r='13'/%3E%3Ccircle cx='28' cy='14' r='9'/%3E%3Ccircle cx='28' cy='14' r='5'/%3E%3C/g%3E%3C/svg%3E");
+    --page: #151a26;
+    --card-bg: #1f2534;
+    --bar-bg: #0f1f3a;
+    --bar-ink: #f3eee3;
+    --bar-line: #ff9b8f;
+  }
+  /* @end */
+}
+
 *, *::before, *::after { box-sizing: border-box; }
+html { font-size: calc(100% * var(--scale)); }
 html, body { margin: 0; }
-body { font-family: var(--font); color: var(--ink); background: var(--paper); line-height: 1.5; }
+body { font-family: var(--font); color: var(--ink); background: var(--page) var(--pattern); line-height: 1.5; }
 button, input, textarea { font: inherit; color: inherit; }
 :focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }

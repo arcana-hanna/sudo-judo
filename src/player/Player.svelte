@@ -3,6 +3,9 @@
   import type { Project } from '../shared/types';
   import { loadSolved, saveSolved } from '../shared/progress';
   import { playerBlocks } from './registry';
+  import Progress from '../shared/ui/Progress.svelte';
+  import LevelPill from '../shared/ui/LevelPill.svelte';
+  import { theme, str, isThemeId } from '../shared/theme.svelte';
 
   let { project, useHash = false, persist = false, start = '' }:
     { project: Project; useHash?: boolean; persist?: boolean; start?: string } = $props();
@@ -23,6 +26,12 @@
   });
 
   $effect(() => { if (persist) solvedIds = loadSolved(project.id); });
+
+  // Aussehen: Theme des Projekts (auf der fertigen Seite auch am <html>-Element, damit die Seitenfarbe stimmt)
+  $effect(() => {
+    theme.id = isThemeId(project.theme) ? project.theme : 'klar';
+    if (useHash) document.documentElement.dataset.theme = theme.id;
+  });
 
   // Seitenwechsel: Fokus auf die Überschrift (Screenreader) und passender Tab-Titel.
   $effect(() => {
@@ -70,6 +79,7 @@
       {#each page.blocks as block (block.id)}
         {@const def = playerBlocks[block.type]}
         {#if def}
+          {#if def.exercise && typeof block.level === 'number'}<div class="lvl"><LevelPill level={block.level} /></div>{/if}
           <def.component {block} solved={solvedIds.includes(block.id)} onsolved={() => markSolved(block.id)} />
         {:else}
           <p class="unknown">Dieser Inhalt („{block.type}“) wird von dieser Version nicht unterstützt.</p>
@@ -78,17 +88,12 @@
 
       <nav class="pager">
         <button disabled={index === 0} onclick={() => go(project.pages[index - 1].id)}>Zurück</button>
-        <button onclick={() => go('')}>Menü</button>
+        <button onclick={() => go('')}>{str().menu}</button>
         <button class="primary" disabled={index === project.pages.length - 1}
           onclick={() => go(project.pages[index + 1].id)}>Weiter</button>
       </nav>
     {:else}
-      {#if totalEx > 0}
-        <div class="sum">
-          <p>{doneEx} von {totalEx} Aufgaben gelöst</p>
-          <progress max={totalEx} value={doneEx} aria-label="Fortschritt"></progress>
-        </div>
-      {/if}
+      {#if totalEx > 0}<Progress done={doneEx} total={totalEx} />{/if}
       {#if project.pages.length === 0}
         <p>Diese Aufgabensammlung hat noch keine Seiten.</p>
       {/if}
@@ -116,10 +121,12 @@
 </div>
 
 <style>
-  .player { font-size: 1.125rem; min-height: 100%; }
-  .bar { border-bottom: 2px solid var(--line); padding: .5rem 1.5rem; }
-  .home { background: none; border: 0; font-weight: 700; color: var(--accent); cursor: pointer; padding: .25rem 0; font-size: 1rem; }
-  main { max-width: 46rem; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
+  .player { font-size: 1.125rem; min-height: 100%; background: var(--page) var(--pattern); }
+  .bar { background: var(--bar-bg); border-bottom: var(--bar-w) solid var(--bar-line); padding: .5rem 1.5rem; }
+  .home { display: inline-flex; align-items: center; background: none; border: 0; font-weight: 700; color: var(--bar-ink); cursor: pointer; padding: .25rem 0; font-size: 1rem; }
+  .home::before { content: ''; width: var(--sun-size); height: var(--sun-size); border-radius: 50%; background: #d32f2f; margin-right: calc(var(--sun-size) * .6); }
+  main { width: min(46rem, calc(100% - var(--card-gap))); margin: var(--card-margin) auto; padding: 1.5rem 1.5rem 3rem; background: var(--card-bg); border: var(--card-border); border-radius: var(--card-radius); box-shadow: var(--card-shadow); }
+  .lvl { display: flex; justify-content: flex-end; margin: 0 0 .35rem; }
   h1 { font-size: 1.9rem; line-height: 1.2; margin: .5rem 0 1.25rem; }
   .menu { list-style: none; padding: 0; margin: 0; display: grid; gap: .75rem; }
   .card { width: 100%; text-align: left; display: flex; justify-content: space-between; gap: 1rem; align-items: baseline;
@@ -130,13 +137,10 @@
   .status { color: var(--muted); font-size: .95rem; white-space: nowrap; }
   .done .status { color: var(--good); font-weight: 650; }
   .pager { display: flex; gap: .75rem; justify-content: space-between; margin-top: 2.5rem; padding-top: 1.25rem; border-top: 2px solid var(--line); }
-  .pager button { padding: .6rem 1.2rem; border: 2px solid var(--line); background: var(--paper); border-radius: var(--radius); cursor: pointer; font-weight: 600; }
+  .pager button { padding: .6rem 1.2rem; border: 2px solid var(--line); background: var(--paper); border-radius: var(--btn-radius); cursor: pointer; font-weight: 600; }
   .pager button.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
   .pager button:disabled { opacity: .4; cursor: default; }
   h1:focus { outline: none; }
-  .sum { margin: 0 0 1.25rem; }
-  .sum p { margin: 0 0 .3rem; color: var(--muted); font-size: 1rem; }
-  progress { width: 100%; height: .7rem; accent-color: var(--accent); }
   .reset { margin: 2rem 0 0; }
   .link { background: none; border: 0; padding: 0; color: var(--muted); font-size: .9rem; text-decoration: underline; cursor: pointer; }
   .link:hover { color: var(--accent); }

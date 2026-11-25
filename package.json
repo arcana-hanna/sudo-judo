@@ -11,7 +11,7 @@
     "test:contrast": "node --experimental-strip-types --no-warnings scripts/contrast.test.mjs",
     "test:validate": "node --experimental-strip-types --no-warnings scripts/validate.test.mjs",
     "test:unit": "npm run -s test:robot && npm run -s test:contrast && npm run -s test:validate",
-    "test:e2e": "python3 scripts/e2e.py && python3 scripts/e2e_polish.py && python3 scripts/e2e_blocks.py && python3 scripts/e2e_ux.py && python3 scripts/e2e_solve.py"
+    "test:e2e": "python3 scripts/e2e.py && python3 scripts/e2e_polish.py && python3 scripts/e2e_blocks.py && python3 scripts/e2e_ux.py && python3 scripts/e2e_solve.py && python3 scripts/e2e_theme.py"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^5.0.0",

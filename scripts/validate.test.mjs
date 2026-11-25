@@ -131,3 +131,40 @@ assert.ok(sameSet([1, 2, 3], [3, 1, 2]) && !sameSet([1, 2], [1, 2, 3])); ok('sam
   const n = countValidOrders(o.items.map((i) => i.id), o.rules);
   assert.ok(n > 1 && n < 120); ok(`template order-rules: ${n} of 120 orders are valid`);
 }
+
+// ---- Speicher: Namensraum "sudo-judo:" mit Übernahme der alten "raetselbox:"-Einträge ----
+import { readStored, writeStored } from '../src/shared/storage.ts';
+{
+  const mem = () => { const m = new Map(); return { m, getItem: (k) => (m.has(k) ? m.get(k) : null), setItem: (k, v) => void m.set(k, v), removeItem: (k) => void m.delete(k) }; };
+  const s = mem();
+  s.setItem('raetselbox:progress:abc', '["a","b"]');
+  assert.equal(readStored('progress:abc', s), '["a","b"]'); ok('storage: old entry is still readable');
+  assert.equal(s.getItem('sudo-judo:progress:abc'), '["a","b"]'); assert.equal(s.getItem('raetselbox:progress:abc'), null); ok('storage: old entry migrated to the new key and removed');
+  s.setItem('raetselbox:editor-draft', 'ALT'); s.setItem('sudo-judo:editor-draft', 'NEU');
+  assert.equal(readStored('editor-draft', s), 'NEU'); assert.equal(s.getItem('raetselbox:editor-draft'), 'ALT'); ok('storage: a newer entry wins and the old one is left untouched');
+  assert.equal(readStored('nothing', s), null); ok('storage: missing key -> null');
+  const broken = { getItem() { throw new Error('x'); }, setItem() { throw new Error('x'); }, removeItem() { throw new Error('x'); } };
+  assert.equal(readStored('x', broken), null); assert.equal(writeStored('x', 'y', broken), false); ok('storage: blocked storage fails quietly');
+  const quota = { ...mem(), setItem() { throw new Error('quota'); } };
+  quota.getItem = (k) => (k === 'raetselbox:q' ? 'v' : null);
+  assert.equal(readStored('q', quota), 'v'); ok('storage: if migrating fails the value is still returned (and old entry kept)');
+}
+
+// ---- Gürtel: Fortschritt und Schwierigkeit ----
+import { beltFor, neededFor, nextBelt, beltName, beltAdj, BELTS } from '../src/shared/belts.ts';
+{
+  assert.equal(BELTS.length, 7); ok('belts: seven belts, white to black');
+  assert.deepEqual([0, 1, 2, 3, 4, 5, 6, 7].map((d) => beltFor(d, 7)), [0, 0, 1, 2, 3, 4, 5, 6]); ok('belts: progress for 7 tasks (black only when all solved)');
+  assert.equal(beltFor(0, 0), 0); assert.equal(beltFor(5, 5), 6); assert.equal(beltFor(1, 6), 1); ok('belts: edge cases (no tasks, 6 tasks = one belt each)');
+  for (const total of [1, 2, 3, 5, 7, 10, 12, 24]) for (let d = 0; d <= total; d++) {
+    const r = beltFor(d, total);
+    assert.ok(d >= neededFor(r, total) && (r === 6 || d < neededFor(r + 1, total)), `consistent at ${d}/${total}`);
+  }
+  ok('belts: neededFor is consistent with beltFor for many sizes');
+  assert.deepEqual(nextBelt(1, 7), { belt: 1, missing: 1 }); assert.deepEqual(nextBelt(2, 7), { belt: 2, missing: 1 }); assert.equal(nextBelt(7, 7), null);
+  assert.ok(nextBelt(0, 12).missing === 2); ok('belts: next belt and missing tasks');
+  assert.equal(beltName(1), 'Gelb'); assert.equal(beltAdj(6), 'Schwarzer'); assert.equal(beltName(99), 'Schwarz'); assert.equal(beltName(-3), 'Weiß'); ok('belts: names and clamping');
+}
+
+// Blockierter Speicher: schon der Zugriff auf localStorage kann scheitern (hier: gar nicht vorhanden)
+assert.equal(readStored('anything'), null); assert.equal(writeStored('anything', 'x'), false); ok('storage: global localStorage unavailable -> no crash');

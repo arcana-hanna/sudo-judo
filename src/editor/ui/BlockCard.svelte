@@ -3,6 +3,7 @@
   import { playerBlocks } from '../../player/registry';
   import QuestionField from './QuestionField.svelte';
   import TipField from './TipField.svelte';
+  import LevelField from './LevelField.svelte';
 
   let { block = $bindable(), index, count, issues = [], onmove, ondup, ondelete, ongrab, ongrabend }:
     { block: any; index: number; count: number; issues?: string[];
@@ -56,14 +57,14 @@
         {#each issues as m (m)}<li>{m}</li>{/each}
       </ul>
     {/if}
-    {#if hasHint}<TipField bind:value={block.hint} />{/if}
+    {#if hasHint}<div class="foot"><TipField bind:value={block.hint} /><LevelField bind:value={block.level} /></div>{/if}
   {/if}
 </article>
 
 <style>
   .block { position: relative; margin: 0; padding: .9rem 1rem 1rem; border: 1px solid transparent; border-radius: 10px; outline: none; transition: border-color .12s, background .12s; }
-  .block:hover, .block:focus-within { border-color: var(--line); background: #fcfdfd; }
-  .block.testing { border-color: var(--accent); background: #f6fbfd; }
+  .block:hover, .block:focus-within { border-color: var(--line); background: color-mix(in srgb, var(--accent) 3%, var(--paper)); }
+  .block.testing { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 8%, var(--paper)); }
   .kind { position: absolute; top: -.7rem; left: .8rem; padding: 0 .4rem; background: var(--paper); color: var(--muted); font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; opacity: 0; transition: opacity .12s; }
   .bar { position: absolute; top: -1.15rem; right: .6rem; z-index: 5; display: flex; align-items: center; gap: .15rem; padding: .15rem .3rem; background: var(--paper);
          border: 1px solid var(--line); border-radius: 8px; box-shadow: 0 2px 10px rgba(28, 43, 51, .12); font-size: .85rem; opacity: 0; pointer-events: none; transition: opacity .12s; }

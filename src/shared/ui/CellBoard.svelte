@@ -76,16 +76,16 @@
   svg { width: 100%; height: auto; display: block; border: 3px solid var(--ink); border-radius: 4px; background: var(--paper); touch-action: manipulation; }
   .sq, .wall { vector-effect: non-scaling-stroke; }
   .sq { fill: var(--paper); stroke: var(--line); stroke-width: 1px; }
-  .sq.bgd { fill: transparent; stroke: rgba(28, 43, 51, .45); }
-  .sq.sel { fill: rgba(10, 108, 140, .38); stroke: var(--accent); stroke-width: 3px; }
+  .sq.bgd { fill: transparent; stroke: color-mix(in srgb, var(--ink) 45%, transparent); }
+  .sq.sel { fill: color-mix(in srgb, var(--accent) 38%, transparent); stroke: var(--accent); stroke-width: 3px; }
   .cell.live { cursor: pointer; }
-  .cell.live:hover .sq:not(.sel) { fill: rgba(10, 108, 140, .12); }
+  .cell.live:hover .sq:not(.sel) { fill: color-mix(in srgb, var(--accent) 12%, transparent); }
   .cell:focus { outline: none; }
   .cell:focus-visible .sq { stroke: var(--accent); stroke-width: 3px; stroke-dasharray: 6 4; }
   .start { fill: var(--ink); pointer-events: none; }
-  .goal { fill: var(--good); pointer-events: none; stroke: #fff; stroke-width: 1; paint-order: stroke; }
+  .goal { fill: var(--good); pointer-events: none; stroke: var(--paper); stroke-width: 1; paint-order: stroke; }
   .wall { stroke: var(--bad); stroke-width: 5px; stroke-linecap: round; pointer-events: none; }
   .hit { fill: transparent; cursor: pointer; }
-  .hit:hover, .hit:focus-visible { fill: rgba(169, 59, 38, .25); outline: none; }
-  .hit.on:hover { fill: rgba(169, 59, 38, .5); }
+  .hit:hover, .hit:focus-visible { fill: color-mix(in srgb, var(--bad) 28%, transparent); outline: none; }
+  .hit.on:hover { fill: color-mix(in srgb, var(--bad) 50%, transparent); }
 </style>

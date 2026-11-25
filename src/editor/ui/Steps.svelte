@@ -15,6 +15,6 @@
   .steps button { display: inline-flex; align-items: center; gap: .45rem; border-radius: 999px !important; padding: .3rem .85rem .3rem .35rem !important; font-size: .9rem; font-weight: 600; color: var(--muted); border-color: var(--line) !important; background: var(--paper) !important; }
   .steps button.on { color: var(--accent-ink); background: var(--accent) !important; border-color: var(--accent) !important; }
   .n { display: inline-grid; place-items: center; width: 1.4rem; height: 1.4rem; border-radius: 50%; background: var(--wash); color: var(--ink); font-size: .8rem; }
-  .on .n { background: #fff; color: var(--accent); }
+  .on .n { background: var(--accent-ink); color: var(--accent); }
   .arrow { color: var(--muted); }
 </style>

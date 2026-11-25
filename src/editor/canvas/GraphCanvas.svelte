@@ -103,7 +103,7 @@
         {#if block.mode !== 'color'}
           <label>Farbe
             <select value={fNode.color ?? 0} onchange={(e) => (fNode.color = +e.currentTarget.value || undefined)}>
-              {#each NODE_COLOR_NAMES as cn, i}<option value={i}>{i === 0 ? 'weiß' : cn}</option>{/each}
+              {#each NODE_COLOR_NAMES as cn, i}<option value={i}>{i === 0 ? 'keine' : cn}</option>{/each}
             </select></label>
         {/if}
       {:else if fEdge}

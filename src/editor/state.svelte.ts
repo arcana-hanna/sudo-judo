@@ -1,13 +1,13 @@
 import { migrate } from '../shared/migrate';
+import { readStored, writeStored } from '../shared/storage';
 import { uid, type Block, type Page, type Project } from '../shared/types';
 import { blankProject, sampleProject } from './templates';
 import { cloneWithNewIds } from './clone';
 
-// Alter Präfix bleibt, damit vorhandene Entwürfe nach der Umbenennung erhalten bleiben.
-const DRAFT = 'raetselbox:editor-draft';
+const DRAFT = 'editor-draft';
 
 function loadDraft(): Project {
-  try { return migrate(JSON.parse(localStorage.getItem(DRAFT) ?? '')); }
+  try { return migrate(JSON.parse(readStored(DRAFT) ?? '')); }
   catch { return sampleProject(); }
 }
 
@@ -23,8 +23,7 @@ export const app = $state({
 if (!app.project.pages.some((p) => p.id === app.pageId)) app.pageId = app.project.pages[0]?.id ?? '';
 
 export function saveDraft() {
-  try { localStorage.setItem(DRAFT, JSON.stringify(app.project)); app.storageOk = true; }
-  catch { app.storageOk = false; }
+  app.storageOk = writeStored(DRAFT, JSON.stringify(app.project));
 }
 export const markSaved = () => { app.saved = JSON.stringify(app.project); app.dirty = false; };
 

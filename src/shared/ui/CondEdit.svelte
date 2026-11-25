@@ -27,7 +27,7 @@
 {/if}
 
 <style>
-  .ro { background: #fff; color: var(--ink); border-radius: 12px; padding: 0 .6rem; font-weight: 700; }
-  select { border: 0; border-radius: 12px; padding: .15rem .35rem; background: #fff; color: var(--ink); font: inherit; font-weight: 600; }
+  .ro { background: #fff; color: #1c2b33; border-radius: 12px; padding: 0 .6rem; font-weight: 700; }
+  select { border: 0; border-radius: 12px; padding: .15rem .35rem; background: #fff; color: #1c2b33; font: inherit; font-weight: 600; }
   .not { display: inline-flex; align-items: center; gap: .2rem; font-size: .9rem; }
 </style>

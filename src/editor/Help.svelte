@@ -9,6 +9,8 @@
     <li><strong>Direkt im Blatt schreiben:</strong> Was du siehst, sehen auch die Schüler. Klicke auf einen Text, eine Antwort oder eine Karte und tippe los.</li>
     <li><strong>Inhalte hinzufügen:</strong> Zwischen den Blöcken erscheint beim Darüberfahren ein „+“. Unten gibt es immer „+ Inhalt hinzufügen“.</li>
     <li><strong>Die Lösung festlegen:</strong> Bei Auswahlaufgaben klickst du den Kreis neben der richtigen Antwort. Bei Reihenfolge und Zuordnen bringst du die Karten selbst in die richtige Ordnung bzw. Gruppe – das <em>ist</em> die Lösung.</li>
+    <li><strong>Schwierigkeit:</strong> Unter jeder Aufgabe kannst du eine Gürtelstufe festlegen (Weiß bis Schwarz). Die Schüler sehen sie an der Aufgabe.</li>
+    <li><strong>Aussehen:</strong> Im Menü „Datei“ wählst du zwischen „Klar“ (schlicht) und „Dojo“ (bunt, mit Gürteln für den Lernfortschritt – gut für jüngere Schüler). Beide passen sich dem hellen oder dunklen Modus des Geräts an.</li>
     <li><strong>Ausprobieren:</strong> Jeder Block hat oben rechts „▶ Ausprobieren“. Oben in der Leiste probierst du die ganze Aufgabensammlung aus.</li>
     <li><strong>Hinweise:</strong> Fehlt etwas (z. B. keine richtige Antwort markiert), steht direkt am Block ein Hinweis. Oben zeigt „Alles fertig“ oder die Zahl der Hinweise.</li>
     <li><strong>Weitergeben:</strong> „Weitergeben“ speichert <em>eine einzelne HTML-Datei</em>. Sie läuft ohne Internet und lässt sich per Link, Lernplattform oder USB-Stick verteilen.</li>

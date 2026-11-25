@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { str } from '../../shared/theme.svelte';
   import { onDestroy, untrack } from 'svelte';
   import type { Program, RobotBlock } from '../../shared/types';
   import { simulate, type Step, type RunResult } from '../../shared/robot/sim';
@@ -34,7 +35,7 @@
     stop();
     const sol = block.solution;
     if (!predict && (sol.main.length || sol.defs.length)) program = clone(sol);
-    msg = { ok: true, text: 'Richtig!' };
+    msg = { ok: true, text: str().ok };
   });
 
   const fail = (text: string) => (msg = { ok: false, text });
@@ -59,7 +60,7 @@
     if (!atGoal(res.final)) return fail('Der Roboter ist nicht am Ziel angekommen.');
     if (block.maxBlocks > 0 && blocks > block.maxBlocks)
       return fail(`Das Ziel ist erreicht, aber du brauchst ${blocks} Blöcke. Erlaubt sind höchstens ${block.maxBlocks}.`);
-    msg = { ok: true, text: 'Richtig!' };
+    msg = { ok: true, text: str().ok };
     onsolved?.();
   }
 
@@ -68,7 +69,7 @@
     const ok = block.predict === 'position'
       ? guessCell === res.final.y * block.world.cols + res.final.x
       : guessNum.trim() !== '' && Number(guessNum) === (res.final.vars[block.predictVar] ?? 0);
-    if (ok) { msg = { ok: true, text: 'Richtig!' }; onsolved?.(); } else fail('Noch nicht ganz.');
+    if (ok) { msg = { ok: true, text: str().ok }; onsolved?.(); } else fail(str().no);
   }
 
   const note = $derived(predict
@@ -114,7 +115,7 @@
     {/if}
     <p class="msg" role="status">
       {#if msg?.ok}<span class="ok">{msg.text}</span>
-      {:else if msg}<span class="no">{msg.text}</span>{#if block.hint}<span>Tipp: {block.hint}</span>{/if}{/if}
+      {:else if msg}<span class="no">{msg.text}</span>{#if block.hint}<span>{str().tip} {block.hint}</span>{/if}{/if}
     </p>
   </div>
 </fieldset>
@@ -127,12 +128,12 @@
   .board { margin-bottom: 1rem; }
   .py { margin-top: 1rem; }
   .py summary { cursor: pointer; font-weight: 600; color: var(--accent); }
-  pre { background: var(--ink); color: #f3f6f8; padding: .8rem 1rem; border-radius: var(--radius); overflow: auto; font-size: .9rem; line-height: 1.45; margin: .5rem 0 0; }
+  pre { background: #1c2b33; color: #f3f6f8; border: 1px solid var(--line); padding: .8rem 1rem; border-radius: var(--radius); overflow: auto; font-size: .9rem; line-height: 1.45; margin: .5rem 0 0; }
   code { font-family: ui-monospace, "Cascadia Code", Consolas, Menlo, monospace; }
   .row { display: flex; align-items: center; gap: .75rem; margin-top: 1rem; flex-wrap: wrap; }
-  .check { background: var(--accent); color: var(--accent-ink); border: 0; border-radius: var(--radius); padding: .6rem 1.4rem; font-weight: 650; cursor: pointer; }
+  .check { background: var(--accent); color: var(--accent-ink); border: 0; border-radius: var(--btn-radius); padding: .6rem 1.4rem; font-weight: 650; cursor: pointer; }
   .check:disabled { background: var(--line); color: var(--muted); cursor: default; }
-  .sec { background: var(--paper); border: 2px solid var(--line); border-radius: var(--radius); padding: .5rem 1rem; font-weight: 600; cursor: pointer; }
+  .sec { background: var(--paper); border: 2px solid var(--line); border-radius: var(--btn-radius); padding: .5rem 1rem; font-weight: 600; cursor: pointer; }
   .sec:disabled { opacity: .45; cursor: default; }
   .count { color: var(--muted); font-size: .95rem; }
   .count.over { color: var(--bad); font-weight: 650; }

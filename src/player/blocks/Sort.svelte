@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { str } from '../../shared/theme.svelte';
   import { untrack } from 'svelte';
   import type { SortBlock } from '../../shared/types';
   import { seededShuffle } from '../../shared/shuffle';
@@ -67,9 +68,9 @@
   <div class="row">
     <button class="check" onclick={check} disabled={solved || !allPlaced}>Prüfen</button>
     <p class="msg" role="status">
-      {#if result === 'ok'}<span class="ok">Richtig!</span>
-      {:else if result === 'no'}<span class="no">Noch nicht ganz.</span>
-        {#if block.hint}<span>Tipp: {block.hint}</span>{/if}
+      {#if result === 'ok'}<span class="ok">{str().ok}</span>
+      {:else if result === 'no'}<span class="no">{str().no}</span>
+        {#if block.hint}<span>{str().tip} {block.hint}</span>{/if}
       {/if}
     </p>
   </div>
@@ -93,7 +94,7 @@
   .chip:disabled { cursor: default; color: var(--ink); }
   .drop { margin-top: .6rem; width: 100%; padding: .4rem; border: 2px dashed var(--accent); background: var(--paper); color: var(--accent); border-radius: var(--radius); font-weight: 650; cursor: pointer; }
   .row { display: flex; align-items: center; gap: 1rem; margin-top: 1rem; flex-wrap: wrap; }
-  .check { background: var(--accent); color: var(--accent-ink); border: 0; border-radius: var(--radius); padding: .6rem 1.4rem; font-weight: 650; cursor: pointer; }
+  .check { background: var(--accent); color: var(--accent-ink); border: 0; border-radius: var(--btn-radius); padding: .6rem 1.4rem; font-weight: 650; cursor: pointer; }
   .check:disabled { background: var(--line); color: var(--muted); cursor: default; }
   .msg { margin: 0; display: flex; flex-direction: column; gap: .15rem; }
   .ok { color: var(--good); font-weight: 650; }
