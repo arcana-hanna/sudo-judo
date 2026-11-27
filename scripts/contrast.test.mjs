@@ -8,7 +8,7 @@ const css = readFileSync(new URL('../src/shared/theme.css', import.meta.url), 'u
 const tokens = (text) => Object.fromEntries([...text.matchAll(/--([\w-]+):\s*(#[0-9a-fA-F]{6})\s*;/g)].map((m) => [m[1], m[2]]));
 const themes = Object.fromEntries([...css.matchAll(/\/\* @theme (\S+) \*\/([\s\S]*?)\/\* @end \*\//g)].map((m) => [m[1], tokens(m[2])]));
 const shared = tokens(css.slice(0, css.indexOf('/* ===== Theme "klar"')));          // Blockfarben
-assert.deepEqual(Object.keys(themes).sort(), ['dojo-dark', 'dojo-light', 'klar-dark', 'klar-light']);
+assert.deepEqual(Object.keys(themes).sort(), ['bunt-dark', 'bunt-light', 'klar-dark', 'klar-light']);
 
 const lum = (h) => {
   const [r, g, b] = [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16) / 255).map((c) => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4));

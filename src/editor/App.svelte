@@ -7,7 +7,8 @@
   import { editorBlocks } from './registry';
   import { templates, type Template } from './templates';
   import { icons } from './icons';
-  import { theme, THEMES, isThemeId } from '../shared/theme.svelte';
+  import { theme, normalizeTheme } from '../shared/theme.svelte';
+  import Settings from './Settings.svelte';
   import { download, readProject } from './io';
   import Help from './Help.svelte';
   import Menu from './ui/Menu.svelte';
@@ -19,6 +20,7 @@
   let fileInput: HTMLInputElement;
   let galleryDlg: HTMLDialogElement;
   let helpDlg: HTMLDialogElement;
+  let settingsDlg: HTMLDialogElement;
   let pickerDlg: HTMLDialogElement;
   let pickerIndex = 0;
   let showIssues = $state(false);
@@ -27,7 +29,8 @@
   let dragPage = $state(-1);
   let overPage = $state(-1);
 
-  const projectTheme = $derived(isThemeId(app.project.theme) ? app.project.theme : 'klar');
+  const projectTheme = $derived(normalizeTheme(app.project.theme));
+  const levelsOn = $derived(app.project.levels === true);
   $effect(() => { theme.id = projectTheme; });
   const issues = $derived(validate(app.project));
   const issuePages = $derived(
@@ -145,7 +148,7 @@
     <Menu label="Datei ▾" cls="filemenu" items={[
       { label: 'Neues Projekt …', onclick: onNew },
       { label: 'Öffnen …', onclick: () => fileInput.click() },
-      ...THEMES.map((t) => ({ label: `${projectTheme === t.id ? '✓ ' : ''}Aussehen: ${t.name} (${t.desc})`, onclick: () => { app.project.theme = t.id; } })),
+      { label: 'Einstellungen …', onclick: () => settingsDlg.showModal() },
       { label: 'Hilfe und Anleitung', onclick: () => helpDlg.showModal() },
     ]} />
     <input bind:this={fileInput} type="file" accept=".html,.json,text/html,application/json" hidden onchange={onOpen} />
@@ -210,7 +213,7 @@
               ondragover={(e) => { if (dragBlock >= 0) { e.preventDefault(); overBlock = i; } }}
               ondrop={(e) => { e.preventDefault(); dropBlock(i); }}>
               <button class="ins" aria-label="Inhalt vor diesem Block einfügen" title="Hier etwas einfügen" onclick={() => openPicker(i)}><span>+</span></button>
-              <BlockCard bind:block={page.blocks[i]} index={i} count={page.blocks.length} issues={hintsFor(block.id)}
+              <BlockCard bind:block={page.blocks[i]} levels={levelsOn} index={i} count={page.blocks.length} issues={hintsFor(block.id)}
                 onmove={(d) => moveBlock(i, i + d)} ondup={() => duplicateBlock(page, i)} ondelete={() => deleteBlock(i)}
                 ongrab={() => (dragBlock = i)} ongrabend={() => { dragBlock = -1; overBlock = -1; }} />
             </div>
@@ -240,6 +243,7 @@
   </dialog>
 
   <Picker bind:dialog={pickerDlg} onpick={pickBlock} />
+  <Settings bind:dialog={settingsDlg} />
   <Help bind:dialog={helpDlg} />
 </div>
 

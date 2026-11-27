@@ -256,7 +256,7 @@ export const templates: Template[] = [
 
 export function sampleProject(): Project {
   return {
-    schemaVersion: SCHEMA_VERSION, id: uid() + uid(), title: DEFAULT_TITLE, theme: 'klar',
+    schemaVersion: SCHEMA_VERSION, id: uid() + uid(), title: DEFAULT_TITLE, theme: 'klar', progress: 'plain', levels: false,
     pages: [
       welcome('Willkommen'), mc('Erste Aufgabe'), order('Zweite Aufgabe'), sort('Dritte Aufgabe'),
       grid('Vierte Aufgabe'), graph('Fünfte Aufgabe'), robotBuild('Sechste Aufgabe'), robotPredict('Siebte Aufgabe'),
@@ -266,7 +266,7 @@ export function sampleProject(): Project {
 
 export function blankProject(): Project {
   return {
-    schemaVersion: SCHEMA_VERSION, id: uid() + uid(), title: NEW_TITLE, theme: 'klar',
+    schemaVersion: SCHEMA_VERSION, id: uid() + uid(), title: NEW_TITLE, theme: 'klar', progress: 'plain', levels: false,
     pages: [{ id: uid(), title: 'Start', blocks: [{ id: uid(), type: 'text', text: 'Willkommen! Hier warten ein paar Rätsel auf dich.' }] }],
   };
 }

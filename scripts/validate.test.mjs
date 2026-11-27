@@ -168,3 +168,20 @@ import { beltFor, neededFor, nextBelt, beltName, beltAdj, BELTS } from '../src/s
 
 // Blockierter Speicher: schon der Zugriff auf localStorage kann scheitern (hier: gar nicht vorhanden)
 assert.equal(readStored('anything'), null); assert.equal(writeStored('anything', 'x'), false); ok('storage: global localStorage unavailable -> no crash');
+
+// ---- Optionen: Aussehen, Fortschritt, Schwierigkeit – und Übernahme älterer Dateien ----
+import { migrate } from '../src/shared/migrate.ts';
+{
+  const mk = (extra = {}, blocks = []) => ({ schemaVersion: 1, id: 'x', title: 'T', pages: [{ id: 'p', title: 'P', blocks }], ...extra });
+  let m = migrate(mk());
+  assert.deepEqual([m.theme, m.progress, m.levels], ['klar', 'plain', false]); ok('options: a file without options keeps the previous behaviour (clean, plain progress, no levels)');
+  m = migrate(mk({ theme: 'dojo' }));
+  assert.deepEqual([m.theme, m.progress, m.levels], ['bunt', 'belts', true]); ok('options: a file from the earlier "dojo" theme becomes bunt + belts + levels');
+  m = migrate(mk({}, [{ id: 'b', type: 'mc', level: 3 }]));
+  assert.deepEqual([m.progress, m.levels], ['plain', true]); ok('options: levels already set on tasks stay visible');
+  m = migrate(mk({ theme: 'bunt', progress: 'off', levels: false }, [{ id: 'b', type: 'mc', level: 3 }]));
+  assert.deepEqual([m.theme, m.progress, m.levels], ['bunt', 'off', false]); ok('options: explicit choices are respected (levels stay stored but hidden)');
+  m = migrate(mk({ theme: 'nonsense', progress: 'weird', levels: 'yes' }));
+  assert.deepEqual([m.theme, m.progress, m.levels], ['klar', 'plain', false]); ok('options: invalid values fall back safely');
+  assert.deepEqual([blankProject().progress, blankProject().levels, blankProject().theme], ['plain', false, 'klar']); ok('options: a new project starts without belts or levels');
+}

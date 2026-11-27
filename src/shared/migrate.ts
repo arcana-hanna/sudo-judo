@@ -1,5 +1,9 @@
-import { SCHEMA_VERSION, type Project } from './types';
-import { DEFAULT_TITLE } from './brand';
+import { SCHEMA_VERSION, type Project } from './types.ts';
+import { DEFAULT_TITLE } from './brand.ts';
+import { normalizeTheme, PROGRESS_MODES } from './themes.ts';
+
+// Ältere Dateien kannten die Optionen noch nicht: Gürtel/Stufen werden übernommen, wenn sie bereits benutzt wurden.
+const hasLevel = (pages: any[]) => Array.isArray(pages) && pages.some((p) => Array.isArray(p?.blocks) && p.blocks.some((b: any) => typeof b?.level === 'number'));
 
 /** Prüft ein geladenes Projekt und hebt ältere Versionen auf die aktuelle an. */
 export function migrate(raw: any): Project {
@@ -13,7 +17,9 @@ export function migrate(raw: any): Project {
     schemaVersion: SCHEMA_VERSION,
     id: String(raw.id ?? ''),
     title: String(raw.title ?? DEFAULT_TITLE),
-    theme: raw.theme === 'dojo' ? 'dojo' : 'klar',
+    theme: normalizeTheme(raw.theme),
+    progress: PROGRESS_MODES.includes(raw.progress) ? raw.progress : raw.theme === 'dojo' ? 'belts' : 'plain',
+    levels: typeof raw.levels === 'boolean' ? raw.levels : raw.theme === 'dojo' || hasLevel(raw.pages),
     pages: raw.pages.map((p: any) => ({
       id: String(p.id), title: String(p.title ?? ''),
       blocks: Array.isArray(p.blocks) ? p.blocks : [],

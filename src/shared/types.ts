@@ -136,7 +136,9 @@ export interface Project {
   schemaVersion: number;
   id: string;        // Schlüssel für den Lernfortschritt im Browser
   title: string;
-  theme?: 'klar' | 'dojo';   // Aussehen der fertigen Seite
+  theme?: 'klar' | 'bunt';   // Aussehen der fertigen Seite
+  progress?: 'off' | 'plain' | 'belts'; // Fortschritt für die Schüler: keiner | Balken | Gürtel
+  levels?: boolean;          // Schwierigkeitsstufen (Gürtelfarben) an Aufgaben verwenden
   pages: Page[];
 }
 

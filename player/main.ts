@@ -8,7 +8,7 @@ try {
   const raw = document.getElementById('project-data')?.textContent ?? '';
   const project = migrate(JSON.parse(raw));
   document.title = project.title;
-  document.documentElement.dataset.theme = project.theme === 'dojo' ? 'dojo' : 'klar';
+  document.documentElement.dataset.theme = project.theme === 'bunt' ? 'bunt' : 'klar';
   mount(Player, { target, props: { project, useHash: true, persist: true } });
 } catch (e) {
   target.innerHTML = '<p style="padding:2rem;font-family:sans-serif">Diese Seite enthält kein gültiges Projekt.</p>';

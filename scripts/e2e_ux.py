@@ -138,7 +138,7 @@ with sync_playwright() as p:
 
     # ---- Menüs ----
     pg.click(".filemenu .mbtn")
-    ok(pg.locator(".filemenu [role=menuitem]").count() == 5, "menu: File menu offers New / Open / two looks / Help")
+    ok(pg.locator(".filemenu [role=menuitem]").count() == 4, "menu: File menu offers New / Open / Settings / Help")
     pg.keyboard.press("Escape"); ok(pg.locator(".filemenu [role=menuitem]").count() == 0, "menu: closes with Escape")
     pg.click(".filemenu .mbtn"); pg.click(".work", position={"x": 5, "y": 5}, force=True)
     ok(pg.locator(".filemenu [role=menuitem]").count() == 0, "menu: closes on outside click")

@@ -5,8 +5,8 @@
   import TipField from './TipField.svelte';
   import LevelField from './LevelField.svelte';
 
-  let { block = $bindable(), index, count, issues = [], onmove, ondup, ondelete, ongrab, ongrabend }:
-    { block: any; index: number; count: number; issues?: string[];
+  let { block = $bindable(), index, count, levels = false, issues = [], onmove, ondup, ondelete, ongrab, ongrabend }:
+    { block: any; index: number; count: number; levels?: boolean; issues?: string[];
       onmove: (dir: -1 | 1) => void; ondup: () => void; ondelete: () => void; ongrab?: () => void; ongrabend?: () => void } = $props();
 
   const def = $derived(editorBlocks[block.type]);
@@ -57,7 +57,7 @@
         {#each issues as m (m)}<li>{m}</li>{/each}
       </ul>
     {/if}
-    {#if hasHint}<div class="foot"><TipField bind:value={block.hint} /><LevelField bind:value={block.level} /></div>{/if}
+    {#if hasHint}<div class="foot"><TipField bind:value={block.hint} />{#if levels}<LevelField bind:value={block.level} />{/if}</div>{/if}
   {/if}
 </article>
 

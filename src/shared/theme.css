@@ -1,5 +1,5 @@
 /* Sudo-Judo – Farben und Formen.
-   Zwei Themes ("klar" und "dojo"), jedes hell und dunkel (folgt automatisch der Einstellung des Geräts).
+   Zwei Themes ("klar" und "bunt"), jedes hell und dunkel (folgt automatisch der Einstellung des Geräts).
    Die Blöcke zwischen "@theme" und "@end" werden von scripts/contrast.test.mjs auf Lesbarkeit geprüft. */
 
 /* ===== Gemeinsam: Blockfarben (Scratch-ähnlich, immer weiße Schrift) und Grundform ===== */
@@ -75,9 +75,9 @@
   /* @end */
 }
 
-/* ===== Theme "dojo": warm, rund, mit Gürteln – für jüngere Schülerinnen und Schüler ===== */
-/* @theme dojo-light */
-[data-theme='dojo'] {
+/* ===== Theme "bunt": warm, rund, mit Gürteln – für jüngere Schülerinnen und Schüler ===== */
+/* @theme bunt-light */
+[data-theme='bunt'] {
   --paper: #fffdf8;
   --wash: #f1e9d8;
   --ink: #2a2118;
@@ -112,8 +112,8 @@
 }
 /* @end */
 @media (prefers-color-scheme: dark) {
-  /* @theme dojo-dark */
-  [data-theme='dojo'] {
+  /* @theme bunt-dark */
+  [data-theme='bunt'] {
     --paper: #1f2534;
     --wash: #151a26;
     --ink: #f3eee3;

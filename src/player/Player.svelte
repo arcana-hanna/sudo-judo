@@ -5,7 +5,7 @@
   import { playerBlocks } from './registry';
   import Progress from '../shared/ui/Progress.svelte';
   import LevelPill from '../shared/ui/LevelPill.svelte';
-  import { theme, str, isThemeId } from '../shared/theme.svelte';
+  import { theme, str, normalizeTheme } from '../shared/theme.svelte';
 
   let { project, useHash = false, persist = false, start = '' }:
     { project: Project; useHash?: boolean; persist?: boolean; start?: string } = $props();
@@ -25,11 +25,15 @@
     return () => window.removeEventListener('hashchange', sync);
   });
 
-  $effect(() => { if (persist) solvedIds = loadSolved(project.id); });
+  // Fortschritt: 'off' = nichts anzeigen und nichts speichern; 'plain' = Balken; 'belts' = Balken und Gürtel
+  const progressMode = $derived(project.progress === 'off' || project.progress === 'belts' ? project.progress : 'plain');
+  const track = $derived(progressMode !== 'off');
+  const showLevels = $derived(project.levels === true);
+  $effect(() => { if (persist && track) solvedIds = loadSolved(project.id); });
 
   // Aussehen: Theme des Projekts (auf der fertigen Seite auch am <html>-Element, damit die Seitenfarbe stimmt)
   $effect(() => {
-    theme.id = isThemeId(project.theme) ? project.theme : 'klar';
+    theme.id = normalizeTheme(project.theme);
     if (useHash) document.documentElement.dataset.theme = theme.id;
   });
 
@@ -49,7 +53,7 @@
   function markSolved(id: string) {
     if (solvedIds.includes(id)) return;
     solvedIds = [...solvedIds, id];
-    if (persist) saveSolved(project.id, solvedIds);
+    if (persist && track) saveSolved(project.id, solvedIds);
   }
 
   const exercises = (p: { blocks: { id: string; type: string }[] }) =>
@@ -79,7 +83,7 @@
       {#each page.blocks as block (block.id)}
         {@const def = playerBlocks[block.type]}
         {#if def}
-          {#if def.exercise && typeof block.level === 'number'}<div class="lvl"><LevelPill level={block.level} /></div>{/if}
+          {#if showLevels && def.exercise && typeof block.level === 'number'}<div class="lvl"><LevelPill level={block.level} /></div>{/if}
           <def.component {block} solved={solvedIds.includes(block.id)} onsolved={() => markSolved(block.id)} />
         {:else}
           <p class="unknown">Dieser Inhalt („{block.type}“) wird von dieser Version nicht unterstützt.</p>
@@ -93,7 +97,7 @@
           onclick={() => go(project.pages[index + 1].id)}>Weiter</button>
       </nav>
     {:else}
-      {#if totalEx > 0}<Progress done={doneEx} total={totalEx} />{/if}
+      {#if track && totalEx > 0}<Progress done={doneEx} total={totalEx} mode={progressMode === 'belts' ? 'belts' : 'plain'} />{/if}
       {#if project.pages.length === 0}
         <p>Diese Aufgabensammlung hat noch keine Seiten.</p>
       {/if}
@@ -102,18 +106,18 @@
           {@const total = exercises(p).length}
           {@const done = solvedCount(p)}
           <li>
-            <button class="card" class:done={total > 0 && done === total} onclick={() => go(p.id)}>
+            <button class="card" class:done={track && total > 0 && done === total} onclick={() => go(p.id)}>
               <span class="name">{p.title || 'Ohne Titel'}</span>
-              <span class="status">
+              {#if track}<span class="status">
                 {#if total === 0}Lesen
                 {:else if done === total}✓ Alles gelöst
                 {:else}{done} von {total} gelöst{/if}
-              </span>
+              </span>{/if}
             </button>
           </li>
         {/each}
       </ul>
-      {#if persist && solvedIds.length > 0}
+      {#if persist && track && solvedIds.length > 0}
         <p class="reset"><button class="link" onclick={resetProgress}>Fortschritt auf diesem Gerät zurücksetzen</button></p>
       {/if}
     {/if}

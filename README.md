@@ -21,15 +21,16 @@ Jede fertige Sammlung ist **eine einzelne HTML-Datei**, die offline läuft und s
 - Alle Aufgabentypen werden direkt im Schülerlayout bearbeitet; Werkzeuge haben Symbole. Karten lassen sich auch ohne Ziehen/Tastatur per ◀ ▶ verschieben.
 - Aufbau: `src/editor/canvas/` (Bearbeiten im Schülerlayout), `src/editor/ui/` (Blockkarte, Auswahl, Menü, Textfelder).
 
-## Aussehen, Gürtel, Dunkelmodus
-- **Zwei Themes** je Sammlung (Menü „Datei → Aussehen“): **Klar** (schlicht, Standard) und **Dojo** (warm, rund, mit Wellenmuster und Gürteln – für jüngere Schüler).
-  Beide folgen automatisch dem hellen oder dunklen Modus des Geräts. Farben und Formen stehen in `src/shared/theme.css`
-  (Blöcke zwischen `@theme … @end` werden von `scripts/contrast.test.mjs` auf Lesbarkeit geprüft), Namen und Standardtitel in `src/shared/brand.ts`.
-- **Gürtel** (`src/shared/belts.ts`): sieben Stufen Weiß → Schwarz. Als **Schwierigkeit** legt man sie pro Aufgabe fest („+ Schwierigkeit festlegen“);
-  als **Fortschritt** steigt der Schüler mit den gelösten Aufgaben auf (Schwarz erst, wenn alles gelöst ist). Im Dojo-Theme als Gürtelgrafik, im Theme „Klar“ als Farbpunkt.
-- **Texte je Theme** (`src/shared/theme.svelte.ts`): Im Dojo-Theme z. B. „Ippon! Richtig!“, „Tipp vom Sensei:“ und „Zum Dojo“.
+## Einstellungen, Gürtel, Dunkelmodus
+Alles Folgende ist **freiwillig** und je Sammlung einstellbar (Menü „Datei → Einstellungen“). Einzelne Aufgaben ohne Stufen und ohne Fortschritt sind ebenso möglich.
+- **Aussehen:** **Klar** (schlicht, Standard) oder **Bunt** (warm, rund, mit Wellenmuster – für jüngere Schüler). Beide folgen automatisch dem hellen oder dunklen Modus des Geräts.
+  Farben und Formen stehen in `src/shared/theme.css` (Blöcke zwischen `@theme … @end` prüft `scripts/contrast.test.mjs` auf Lesbarkeit), Namen und Standardtitel in `src/shared/brand.ts`.
+- **Fortschritt:** *Ohne* (nichts wird angezeigt oder gespeichert), *Einfach* (Balken und „x von y gelöst“, auf dem Gerät gemerkt) oder *Mit Gürteln* (zusätzlich Aufstieg Weiß → Schwarz; Schwarz erst, wenn alles gelöst ist).
+- **Schwierigkeit:** Mit dem Häkchen „Schwierigkeitsstufen verwenden“ erscheint bei jeder Aufgabe „+ Schwierigkeit festlegen“ (Gürtelfarbe). Ohne Häkchen gibt es keine Angaben; schon gesetzte Stufen bleiben gespeichert.
+- **Gürtel** (`src/shared/belts.ts`): sieben Stufen. Texte je Theme in `src/shared/theme.svelte.ts` (Bunt z. B. „Super, richtig!“, „Tipp vom Trainer:“).
+- **Ältere Dateien:** Das frühere Theme „dojo“ wird als „bunt“ erkannt (mit Gürteln und Stufen, wenn sie benutzt wurden); Dateien ohne Optionen verhalten sich wie vorher.
 - **Speicher:** Entwürfe und Lernfortschritt liegen unter `sudo-judo:…`; Daten unter dem alten Namensraum `raetselbox:…` werden automatisch übernommen (`src/shared/storage.ts`).
-- `npm run test:e2e` enthält einen Kontrast-Scanner (`scripts/e2e_theme.py`), der in allen vier Kombinationen (Klar/Dojo × hell/dunkel) jeden sichtbaren Text in Editor und Schüleransicht prüft.
+- `npm run test:e2e` enthält einen Kontrast-Scanner (`scripts/e2e_theme.py`), der in allen vier Kombinationen (Klar/Bunt × hell/dunkel) jeden sichtbaren Text in Editor und Schüleransicht prüft.
 
 ## Aufgabentypen
 | Typ | Was die Schüler tun | Besonderheiten |
